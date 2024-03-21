@@ -1,0 +1,19 @@
+{
+    "name": "shoppingfeed/magento2-sku-suffix",
+    "version": "1.0.0",
+    "description": "Shopping Feed complementary module to add a customizable suffix to the SKUs in the generated feeds.",
+    "type": "magento2-module",
+    "require": {
+        "magento/framework": "*",
+        "shoppingfeed/magento2-manager": ">=1.0"
+    },
+    "license": "OSL-3.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "ShoppingFeed\\SkuSuffix\\": ""
+        }
+    }
+}

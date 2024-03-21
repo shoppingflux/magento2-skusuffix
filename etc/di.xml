@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="ShoppingFeed\Manager\Model\Config\Value\HandlerFactory">
+        <arguments>
+            <argument name="typeFactories" xsi:type="array">
+                <item name="alphanumeric" xsi:type="object">ShoppingFeed\SkuSuffix\Model\Config\Value\Handler\AlphanumericFactory</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="ShoppingFeed\Manager\Model\Feed\Product\Section\Config\AttributesInterface">
+        <plugin
+            name="add_sku_suffix_option_to_attributes_section_config"
+            type="ShoppingFeed\SkuSuffix\Plugin\AddSkuSuffixOptionToAttributesSectionConfig"
+        />
+    </type>
+
+    <type name="ShoppingFeed\Manager\Model\Feed\Product\Section\Adapter\AttributesInterface">
+        <plugin
+            name="add_sku_suffix_to_feed_product"
+            type="ShoppingFeed\SkuSuffix\Plugin\AddSuffixToFeedProductSku"
+        />
+    </type>
+
+    <type name="ShoppingFeed\Manager\Model\Sales\Order\ImporterInterface">
+        <plugin
+            name="map_order_item_skus_before_import"
+            type="ShoppingFeed\SkuSuffix\Plugin\MapOrderItemSkusBeforeImport"
+        />
+    </type>
+</config>

@@ -1,0 +1,5 @@
+"For example, with ""TEST"" as the suffix, SKU ""1234"" will be exported as ""1234-TEST"".","Par exemple, avec ""TEST"" comme suffixe, le SKU ""1234"" sera exporté comme ""1234-TEST""."
+"Leave empty to not use a suffix.","Laisser vide pour ne pas utiliser de suffixe."
+"Multiple matches found for suffixed SKU ""%1"": %2","Plusieurs correspondances trouvées pour le SKU suffixé ""%1"": %2"
+"SKU Suffix","Suffixe de SKU"
+"The suffix will be added to the product references exported in the feed.","Le suffixe sera ajouté aux références de produit exportées dans le flux."
