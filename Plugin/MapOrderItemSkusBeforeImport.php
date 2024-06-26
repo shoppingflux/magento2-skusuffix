@@ -3,15 +3,22 @@
 namespace ShoppingFeed\SkuSuffix\Plugin;
 
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Quote\Model\Quote;
 use ShoppingFeed\Manager\Api\Data\Account\StoreInterface;
 use ShoppingFeed\Manager\Api\Data\Marketplace\Order\ItemInterface as MarketplaceItemInterface;
 use ShoppingFeed\Manager\Model\Sales\Order\ConfigInterface as OrderConfigInterface;
 use ShoppingFeed\Manager\Model\Sales\Order\ImporterInterface;
+use ShoppingFeed\SkuSuffix\Model\Config\Suffix\Separator as SeparatorConfig;
 
 class MapOrderItemSkusBeforeImport
 {
+    /**
+     * @var SeparatorConfig
+     */
+    private $separatorConfig;
+
     /**
      * @var OrderConfigInterface
      */
@@ -28,8 +35,10 @@ class MapOrderItemSkusBeforeImport
      */
     public function __construct(
         OrderConfigInterface $orderGeneralConfig,
-        ProductCollectionFactory $productCollectionFactory
+        ProductCollectionFactory $productCollectionFactory,
+        SeparatorConfig $separatorConfig = null
     ) {
+        $this->separatorConfig = $separatorConfig ?: ObjectManager::getInstance()->get(SeparatorConfig::class);
         $this->orderGeneralConfig = $orderGeneralConfig;
         $this->productCollectionFactory = $productCollectionFactory;
     }
@@ -51,10 +60,14 @@ class MapOrderItemSkusBeforeImport
     ) {
         $skuCandidates = [];
 
+        $referenceRegex = '/^(.+)['
+            . preg_quote(implode('', $this->separatorConfig->getAllSeparators()), '/')
+            . ']([a-z0-9]+)$/iu';
+
         foreach ($marketplaceItems as $marketplaceItem) {
             $reference = trim((string) $marketplaceItem->getReference());
 
-            if (preg_match('/^(.+)-([^-]+)$/i', $reference, $matches)) {
+            if (preg_match($referenceRegex, $reference, $matches)) {
                 $skuCandidates[$reference] = [ $matches[1], $reference ];
             }
         }
